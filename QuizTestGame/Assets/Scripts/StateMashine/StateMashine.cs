@@ -1,18 +1,44 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameStateName
+{
+    Prepare,
+    PickRandomAsset,
+    CheckCurrentDifficulty,
+    CreateEasyField,
+    CreateNormalField,
+    CreateHardField,
+    WaitRightAnswer,
+    RestartGame
+}
+
 public class StateMashine : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameStateName currentState;    
+
+    public delegate void GameStateChangedDel(GameStateName gameStateName);
+    public static event GameStateChangedDel GameStateChangedEve;
+
+    private void OnEnable()
     {
-        
+        GameCore.ChangeStateEve += ChangeState;
+    }
+    private void OnDisable()
+    {
+        GameCore.ChangeStateEve -= ChangeState;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Init()
     {
-        
+        ChangeState(GameStateName.Prepare);
     }
+
+    private void ChangeState(GameStateName gameStateName)
+    {
+        currentState = gameStateName;
+        GameStateChangedEve?.Invoke(gameStateName);        
+    }   
 }
