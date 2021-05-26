@@ -12,7 +12,8 @@ public enum GameStateName
     CreateNormalField,
     CreateHardField,
     WaitRightAnswer,
-    RestartGame
+    RestartGame,
+    FillField
 }
 
 public class StateMashine : MonoBehaviour
