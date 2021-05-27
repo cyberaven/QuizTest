@@ -5,9 +5,9 @@ using UnityEngine;
 
 public enum GameDifficulty
 {
-    Easy,
-    Normal,
-    Hard
+    Easy = 0,
+    Normal = 1,
+    Hard = 2
 }
 
 public class GameCore : MonoBehaviour
@@ -21,6 +21,7 @@ public class GameCore : MonoBehaviour
     [SerializeField] private List<AssetContainer> assetContainers;
     [SerializeField] private int selectedAssetContainer;
     [SerializeField] private List<Sprite> selectedSprites;
+    [SerializeField] private AnswerContainer answerContainer;
 
     private UI ui;
 
@@ -30,10 +31,12 @@ public class GameCore : MonoBehaviour
     private void OnEnable()
     {
         StateMashine.GameStateChangedEve += GameStateChanged;
+        FieldCell.UserOnRightFieldCellEve += UserOnRightFieldCell;
     }
     private void OnDisable()
     {
         StateMashine.GameStateChangedEve -= GameStateChanged;
+        FieldCell.UserOnRightFieldCellEve -= UserOnRightFieldCell;
     }
 
     public void Init(UI ui)
@@ -44,10 +47,12 @@ public class GameCore : MonoBehaviour
     private void GameStateChanged(GameStateName gameStateName)
     {
         if(gameStateName == GameStateName.Prepare)
-        {            
-            ChangeStateEve?.Invoke(GameStateName.CreateEasyField);
+        {
+            currentGameDifficulty = GameDifficulty.Easy;
+            ResetUsedAnswer(assetContainers);
+            ChangeStateEve?.Invoke(GameStateName.CreateField);
         }
-        if(gameStateName == GameStateName.CreateEasyField)
+        if(gameStateName == GameStateName.CreateField)
         {
             CreateField(currentGameDifficulty);
             ChangeStateEve?.Invoke(GameStateName.PickRandomAsset);
@@ -60,8 +65,32 @@ public class GameCore : MonoBehaviour
         }
         if(gameStateName == GameStateName.FillField)
         {
-            ui.Field.FillField(selectedSprites);
+            ui.Field.FillField(answerContainer);
+            string findText = answerContainer.valueForText[answerContainer.rightIndex];
+            ui.ChangeText(findText);
         }
+        if(gameStateName == GameStateName.ChangeDifficulty)
+        {
+            if (currentGameDifficulty == GameDifficulty.Hard)
+            {
+                ChangeStateEve?.Invoke(GameStateName.RestartGame);
+            }
+            {
+                ChangeNextDifficulty(currentGameDifficulty);
+                ChangeStateEve?.Invoke(GameStateName.CreateField);
+            }
+        }
+    }
+    private void ChangeNextDifficulty(GameDifficulty currentGameDifficulty)
+    {
+        if(currentGameDifficulty == GameDifficulty.Easy)
+        {
+            this.currentGameDifficulty = GameDifficulty.Normal;
+        }
+        if (currentGameDifficulty == GameDifficulty.Normal)
+        {
+            this.currentGameDifficulty = GameDifficulty.Hard;
+        }       
     }
 
     private void PickRandomAsset(List<AssetContainer> assetContainers)
@@ -70,14 +99,10 @@ public class GameCore : MonoBehaviour
     }
     private void PickRandomImage(int selectedAssetContainer)
     {
-        selectedSprites = new List<Sprite>();
+        answerContainer = null;
         AssetContainer assetContainer = assetContainers[selectedAssetContainer];
         int spriteCount = DifficultyElementCount(currentGameDifficulty);
-
-        for (int i = 0; i < spriteCount; i++)
-        {
-            selectedSprites.Add(assetContainer.GetRandomSprites());
-        }
+        answerContainer = assetContainer.GetRandomSprites(spriteCount);
     }    
 
     private void CreateField(GameDifficulty gameDifficulty)
@@ -101,5 +126,17 @@ public class GameCore : MonoBehaviour
             return fieldCellCountHardDif;            
         }
         throw new Exception("No gameDifficulty: " + gameDifficulty);
+    }
+
+    private void UserOnRightFieldCell()
+    {
+        ChangeStateEve?.Invoke(GameStateName.ChangeDifficulty);
+    }
+    private void ResetUsedAnswer(List<AssetContainer> assetContainers)
+    {
+        foreach (AssetContainer assetContainer in assetContainers)
+        {
+            assetContainer.ResetUsedAnswer();
+        }
     }
 }

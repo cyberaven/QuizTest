@@ -1,19 +1,51 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AssetName
-{    
-    Alphabet,
-    Number
-}
+
 public class AssetContainer : MonoBehaviour
 {
-    [SerializeField] private AssetName assetName;
     [SerializeField] private List<Sprite> sprites;
+    [SerializeField] private List<string> valueForText;
+    [SerializeField] private List<int> usedSprites = new List<int>();
 
-    public Sprite GetRandomSprites()
-    {
-        return sprites[UnityEngine.Random.Range(0, sprites.Count)];
+    public AnswerContainer GetRandomSprites(int spritesCount)
+    {        
+        AnswerContainer answerContainer = new AnswerContainer();
+        int rightAnswerIndex = UnityEngine.Random.Range(0, spritesCount);
+
+        for (int i = 0; i < spritesCount; i++)
+        {
+            int ri = GetUnusedRandomIndex(sprites);
+            answerContainer.sprites.Add(sprites[ri]);
+            answerContainer.valueForText.Add(valueForText[ri]);
+            if(rightAnswerIndex == i)
+            {
+                answerContainer.rightIndex = rightAnswerIndex;
+                usedSprites.Add(rightAnswerIndex);
+            }
+        }
+
+        return answerContainer;
     }
+    private int GetUnusedRandomIndex(List<Sprite> sprites)
+    {
+        int i = 0;
+        while(usedSprites.Contains(i))
+        {
+            i = UnityEngine.Random.Range(0, sprites.Count);
+        }
+        return i;
+    }  
+    public void ResetUsedAnswer()
+    {
+        usedSprites = new List<int>();
+    }
+}
+public class AnswerContainer
+{
+    public List<Sprite> sprites = new List<Sprite>();    
+    public List<string> valueForText = new List<string>();
+    public int rightIndex = 0;
 }

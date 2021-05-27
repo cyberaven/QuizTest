@@ -10,6 +10,11 @@ public class Field : Panel
 
     public void CreateCell(int count)
     {
+        if(count > currentFieldCells.Count)
+        {
+            count -= currentFieldCells.Count;
+        }
+
         for (int i = 0; i < count; i++)
         {
             FieldCell f = Instantiate(fieldCell, transform);
@@ -17,11 +22,17 @@ public class Field : Panel
         }
     }
 
-    public void FillField(List<Sprite> selectedSprites)
+    public void FillField(AnswerContainer answerContainer)
     {
         for (int i = 0; i < currentFieldCells.Count; i++)
         {
-            currentFieldCells[i].ChangeSprite(selectedSprites[i]);
+            Sprite sprite = answerContainer.sprites[i];
+            bool right = false;
+            if(i == answerContainer.rightIndex)
+            {
+                right = true;
+            }
+            currentFieldCells[i].ChangeSprite(sprite, right);
         }        
     }
 }

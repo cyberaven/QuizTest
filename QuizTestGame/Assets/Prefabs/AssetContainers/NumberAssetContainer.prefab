@@ -43,7 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924e7b268bf73144eb8a83bf7a51eb63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assetName: 1
   sprites:
   - {fileID: 1422184923334757970, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
   - {fileID: 1808195818850983521, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
@@ -55,3 +54,15 @@ MonoBehaviour:
   - {fileID: 3547489320769246608, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
   - {fileID: -1155199509967091035, guid: 147c6bf8419bee144afc38eda2e630c0, type: 3}
   - {fileID: 4142021021139464533, guid: 91913298a33f9b94088171ceb054478b, type: 3}
+  valueForText:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  usedSprites: 

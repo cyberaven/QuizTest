@@ -7,13 +7,12 @@ public enum GameStateName
 {
     Prepare,
     PickRandomAsset,
-    CheckCurrentDifficulty,
-    CreateEasyField,
-    CreateNormalField,
-    CreateHardField,
+    CheckCurrentDifficulty,    
     WaitRightAnswer,
     RestartGame,
-    FillField
+    FillField,
+    ChangeDifficulty,
+    CreateField
 }
 
 public class StateMashine : MonoBehaviour
