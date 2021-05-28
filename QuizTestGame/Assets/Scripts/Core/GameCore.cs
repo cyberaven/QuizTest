@@ -32,11 +32,14 @@ public class GameCore : MonoBehaviour
     {
         StateMashine.GameStateChangedEve += GameStateChanged;
         FieldCell.UserOnRightFieldCellEve += UserOnRightFieldCell;
+        RestartButton.RestartButtonClkEve += RestartButtonClk;
+            
     }
     private void OnDisable()
     {
         StateMashine.GameStateChangedEve -= GameStateChanged;
         FieldCell.UserOnRightFieldCellEve -= UserOnRightFieldCell;
+        RestartButton.RestartButtonClkEve -= RestartButtonClk;
     }
 
     public void Init(UI ui)
@@ -49,6 +52,7 @@ public class GameCore : MonoBehaviour
         if(gameStateName == GameStateName.Prepare)
         {
             currentGameDifficulty = GameDifficulty.Easy;
+            ui.RestartPanel.Off();
             ResetUsedAnswer(assetContainers);
             ChangeStateEve?.Invoke(GameStateName.CreateField);
         }
@@ -73,7 +77,7 @@ public class GameCore : MonoBehaviour
         {
             if (currentGameDifficulty == GameDifficulty.Hard)
             {
-                ChangeStateEve?.Invoke(GameStateName.RestartGame);
+                ui.RestartPanel.On();
             }
             else
             {
@@ -84,6 +88,7 @@ public class GameCore : MonoBehaviour
         if (gameStateName == GameStateName.RestartGame)
         {
             currentGameDifficulty = GameDifficulty.Easy;
+            ui.RestartPanel.Off();
             ChangeStateEve?.Invoke(GameStateName.CreateField);
         }
     }
@@ -145,5 +150,9 @@ public class GameCore : MonoBehaviour
         {
             assetContainer.ResetUsedAnswer();
         }
+    }
+    private void RestartButtonClk()
+    {
+        ChangeStateEve?.Invoke(GameStateName.RestartGame);
     }
 }

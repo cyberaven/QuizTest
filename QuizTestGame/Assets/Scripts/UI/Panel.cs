@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Panel : MonoBehaviour
 {
-    public void On()
+    public virtual void On()
     {
         gameObject.SetActive(true);
     }
-    public void Off()
+    public virtual void Off()
     {
         gameObject.SetActive(false);
     }

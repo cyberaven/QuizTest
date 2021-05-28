@@ -9,10 +9,7 @@ public class Field : Panel
     [SerializeField] private List<FieldCell> currentFieldCells;
 
     public void CreateCell(int count)
-    {
-        Debug.Log("C: " + count);
-        Debug.Log("CCC :" + currentFieldCells.Count);
-
+    {       
         if(count > currentFieldCells.Count)
         {
             count -= currentFieldCells.Count;

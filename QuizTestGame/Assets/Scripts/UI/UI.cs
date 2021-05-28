@@ -8,10 +8,12 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private Field field;
     [SerializeField] private Text text;
+    [SerializeField] private RestartPanel restartPanel;
 
     private Canvas canvas;
 
     public Field Field { get => field; }
+    public RestartPanel RestartPanel { get => restartPanel; }
 
     private void Awake()
     {
