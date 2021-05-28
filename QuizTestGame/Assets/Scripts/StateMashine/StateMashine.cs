@@ -39,6 +39,7 @@ public class StateMashine : MonoBehaviour
     private void ChangeState(GameStateName gameStateName)
     {
         currentState = gameStateName;
+        Debug.Log("Current state: " + currentState);
         GameStateChangedEve?.Invoke(gameStateName);        
     }   
 }

@@ -14,28 +14,30 @@ public class AssetContainer : MonoBehaviour
     {        
         AnswerContainer answerContainer = new AnswerContainer();
         int rightAnswerIndex = UnityEngine.Random.Range(0, spritesCount);
+        List<int> currentRandIndex = new List<int>();
 
         for (int i = 0; i < spritesCount; i++)
         {
-            int ri = GetUnusedRandomIndex(sprites);
+            int ri = GetUnusedRandomIndex(sprites, currentRandIndex);
+            currentRandIndex.Add(ri);
             answerContainer.sprites.Add(sprites[ri]);
             answerContainer.valueForText.Add(valueForText[ri]);
             if(rightAnswerIndex == i)
             {
                 answerContainer.rightIndex = rightAnswerIndex;
-                usedSprites.Add(rightAnswerIndex);
+                usedSprites.Add(ri);
             }
         }
 
         return answerContainer;
     }
-    private int GetUnusedRandomIndex(List<Sprite> sprites)
+    private int GetUnusedRandomIndex(List<Sprite> sprites, List<int> currentRandIndex)
     {
-        int i = 0;
-        while(usedSprites.Contains(i))
+        int i = UnityEngine.Random.Range(0, sprites.Count);        
+        while(usedSprites.Contains(i) || currentRandIndex.Contains(i))
         {
-            i = UnityEngine.Random.Range(0, sprites.Count);
-        }
+            i = UnityEngine.Random.Range(0, sprites.Count);           
+        }        
         return i;
     }  
     public void ResetUsedAnswer()

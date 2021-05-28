@@ -47,8 +47,8 @@ MonoBehaviour:
   - {fileID: 1422184923334757970, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
   - {fileID: 1808195818850983521, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
   - {fileID: -7900951133411543555, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
-  - {fileID: -7398325283844340781, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
   - {fileID: 2267071060405275165, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
+  - {fileID: -7398325283844340781, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
   - {fileID: -7015292045520539579, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
   - {fileID: -675344402919758444, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
   - {fileID: 3547489320769246608, guid: 8cf6bcef6afb296459193fb116091e1b, type: 3}
@@ -65,4 +65,4 @@ MonoBehaviour:
   - 8
   - 9
   - 10
-  usedSprites: 
+  usedSprites: 01000000

@@ -10,9 +10,20 @@ public class Field : Panel
 
     public void CreateCell(int count)
     {
+        Debug.Log("C: " + count);
+        Debug.Log("CCC :" + currentFieldCells.Count);
+
         if(count > currentFieldCells.Count)
         {
             count -= currentFieldCells.Count;
+        }
+        else if(count < currentFieldCells.Count)
+        {
+            foreach(FieldCell fieldCell in currentFieldCells)
+            {
+                Destroy(fieldCell.gameObject);
+            }
+            currentFieldCells = new List<FieldCell>();
         }
 
         for (int i = 0; i < count; i++)

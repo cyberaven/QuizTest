@@ -75,10 +75,16 @@ public class GameCore : MonoBehaviour
             {
                 ChangeStateEve?.Invoke(GameStateName.RestartGame);
             }
+            else
             {
                 ChangeNextDifficulty(currentGameDifficulty);
                 ChangeStateEve?.Invoke(GameStateName.CreateField);
             }
+        }
+        if (gameStateName == GameStateName.RestartGame)
+        {
+            currentGameDifficulty = GameDifficulty.Easy;
+            ChangeStateEve?.Invoke(GameStateName.CreateField);
         }
     }
     private void ChangeNextDifficulty(GameDifficulty currentGameDifficulty)
@@ -87,10 +93,11 @@ public class GameCore : MonoBehaviour
         {
             this.currentGameDifficulty = GameDifficulty.Normal;
         }
-        if (currentGameDifficulty == GameDifficulty.Normal)
+        else if (currentGameDifficulty == GameDifficulty.Normal)
         {
             this.currentGameDifficulty = GameDifficulty.Hard;
-        }       
+        }
+        Debug.Log("Current Difficulty: " + this.currentGameDifficulty);
     }
 
     private void PickRandomAsset(List<AssetContainer> assetContainers)
