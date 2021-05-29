@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UI : MonoBehaviour
 {
@@ -22,8 +23,13 @@ public class UI : MonoBehaviour
 
         field = Instantiate(Field, transform);    
     }
-    public void ChangeText(string s)
+    private void Start()
     {
+        text.DOFade(255, 10);
+    }
+
+    public void ChangeText(string s)
+    {        
         text.text = "Find " + s;
     }
     

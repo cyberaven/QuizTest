@@ -51,3 +51,6 @@ MonoBehaviour:
   assetContainers:
   - {fileID: 8989621641106604513, guid: 0ba06e067d0cf8847aad739824a96ccc, type: 3}
   - {fileID: 8989621641106604513, guid: 29cac3b324a00074888d1aff77bfe95e, type: 3}
+  selectedAssetContainer: 0
+  selectedSprites: []
+  starsPS: {fileID: 2356538879152241611, guid: f16e239dd8eed7f4692432735c38c0cf, type: 3}

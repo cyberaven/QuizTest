@@ -17,11 +17,12 @@ public class GameCore : MonoBehaviour
     [SerializeField] private int fieldCellCountNormalDif = 6;
     [SerializeField] private int fieldCellCountHardDif = 9;
 
+    [SerializeField] private ParticleSystem starsPS;
     [SerializeField] private Field field;
     [SerializeField] private List<AssetContainer> assetContainers;
     [SerializeField] private int selectedAssetContainer;
     [SerializeField] private List<Sprite> selectedSprites;
-    [SerializeField] private AnswerContainer answerContainer;
+    [SerializeField] private AnswerContainer answerContainer;    
 
     private UI ui;
 
@@ -53,6 +54,7 @@ public class GameCore : MonoBehaviour
         {
             currentGameDifficulty = GameDifficulty.Easy;
             ui.RestartPanel.Off();
+            CreateStars();
             ResetUsedAnswer(assetContainers);
             ChangeStateEve?.Invoke(GameStateName.CreateField);
         }
@@ -140,10 +142,23 @@ public class GameCore : MonoBehaviour
         throw new Exception("No gameDifficulty: " + gameDifficulty);
     }
 
-    private void UserOnRightFieldCell()
-    {
+    private void UserOnRightFieldCell(FieldCell fieldCell)
+    {        
+        ShowStars(fieldCell.transform.position);
         ChangeStateEve?.Invoke(GameStateName.ChangeDifficulty);
     }
+
+    private void CreateStars()
+    {
+        starsPS = Instantiate(starsPS);
+    }
+
+    private void ShowStars(Vector3 position)
+    {   
+        starsPS.transform.position = new Vector3(position.x, position.y, -10f);
+        starsPS.Play();
+    }
+
     private void ResetUsedAnswer(List<AssetContainer> assetContainers)
     {
         foreach (AssetContainer assetContainer in assetContainers)

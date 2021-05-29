@@ -2,31 +2,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Field : Panel
-{
-    [SerializeField] private FieldCell fieldCell;
+{    
     [SerializeField] private List<FieldCell> currentFieldCells;
 
     public void CreateCell(int count)
-    {       
-        if(count > currentFieldCells.Count)
-        {
-            count -= currentFieldCells.Count;
-        }
-        else if(count < currentFieldCells.Count)
-        {
-            foreach(FieldCell fieldCell in currentFieldCells)
-            {
-                Destroy(fieldCell.gameObject);
-            }
-            currentFieldCells = new List<FieldCell>();
-        }
+    {        
+        ClearAllCell();
+        HideAllCell();
+        ShowCell(count);
+    }
 
+    private void ShowCell(int count)
+    {
         for (int i = 0; i < count; i++)
         {
-            FieldCell f = Instantiate(fieldCell, transform);
-            currentFieldCells.Add(f);
+            currentFieldCells[i].gameObject.SetActive(true);
+            currentFieldCells[i].transform.DOShakeScale(1);            
+        }
+    }
+    private void ClearAllCell()
+    {
+        foreach (FieldCell fieldCell in currentFieldCells)
+        {
+            fieldCell.Clear();
+        }
+    }
+    private void HideAllCell()
+    {
+        foreach (FieldCell fieldCell in currentFieldCells)
+        {
+            fieldCell.gameObject.SetActive(false);
         }
     }
 
@@ -34,13 +42,16 @@ public class Field : Panel
     {
         for (int i = 0; i < currentFieldCells.Count; i++)
         {
-            Sprite sprite = answerContainer.sprites[i];
-            bool right = false;
-            if(i == answerContainer.rightIndex)
+            if(currentFieldCells[i].gameObject.activeSelf)
             {
-                right = true;
-            }
-            currentFieldCells[i].ChangeSprite(sprite, right);
+                Sprite sprite = answerContainer.sprites[i];
+                bool right = false;
+                if (i == answerContainer.rightIndex)
+                {
+                    right = true;
+                }
+                currentFieldCells[i].ChangeSprite(sprite, right);
+            }            
         }        
     }
 }
